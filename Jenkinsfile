@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'Ejecutando Bandit (analisis estatico de seguridad)...'
                 sh '''
-                    pip3 install --quiet bandit || true
+                    pip3 install --quiet --break-system-packages bandit || true
                     bandit -r app/ -f txt -o bandit-report.txt || true
                     cat bandit-report.txt
                 '''
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 echo 'Auditando dependencias con pip-audit...'
                 sh '''
-                    pip3 install --quiet pip-audit || true
+                    pip3 install --quiet --break-system-packages pip-audit || true
                     pip-audit -r app/requirements.txt || true
                 '''
             }
