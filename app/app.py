@@ -17,9 +17,9 @@ def login():
     password = request.args.get("password", "")
     conn = sqlite3.connect(DB)
     cursor = conn.cursor()
-    # VULNERABLE: concatenación directa de entrada del usuario -> SQL Injection
-    query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
-    cursor.execute(query)
+    # CORREGIDO: consulta parametrizada, previene SQL Injection
+    query = "SELECT * FROM users WHERE username = ? AND password = ?"
+    cursor.execute(query, (username, password))
     user = cursor.fetchone()
     conn.close()
     if user:
